@@ -25,6 +25,7 @@ import {
   PacketSessionHistoryDataParser,
   PacketTyreSetsDataParser,
   PacketMotionExDataParser,
+  PacketTimeTrialDataParser,
 } from './parsers/packets';
 import * as packetTypes from './parsers/packets/types';
 import {Address, Options, ParsedMessage, TestMode} from './types';
@@ -157,6 +158,9 @@ class F1TelemetryClient extends EventEmitter {
 
       case PACKETS.motionEx:
         return PacketMotionExDataParser;
+
+      case PACKETS.timeTrial:
+        return PacketTimeTrialDataParser;
 
       default:
         return null;
@@ -316,6 +320,7 @@ export {
 
 function initializeTestMode() {
   const localAppDataDirectory = path.join(os.homedir(), 'AppData', 'Local');
+  // directory of logs from Test Mode
   const testLogDir = `${localAppDataDirectory}/Podium/udp_logs/${Date.now()}`;
   fs.mkdirSync(testLogDir);
 
